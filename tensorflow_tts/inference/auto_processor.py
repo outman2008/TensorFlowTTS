@@ -51,7 +51,6 @@ class AutoProcessor:
 
     @classmethod
     def from_pretrained(cls, pretrained_path, **kwargs):
-        # load weights from hf hub
         if not os.path.isfile(pretrained_path):
             # retrieve correct hub url
             download_url = hf_hub_url(repo_id=pretrained_path, filename=PROCESSOR_FILE_NAME)
@@ -64,9 +63,9 @@ class AutoProcessor:
                     cache_dir=CACHE_DIRECTORY,
                 )
             )
+        print('pretrained_path', pretrained_path)
         with open(pretrained_path, "r") as f:
             config = json.load(f)
-
         try:
             processor_name = config["processor_name"]
             processor_class = CONFIG_MAPPING[processor_name]

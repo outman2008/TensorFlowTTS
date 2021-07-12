@@ -17,6 +17,7 @@
 import os
 import re
 from typing import Dict, List, Union, Tuple, Any
+import json
 
 import librosa
 import numpy as np
@@ -523,7 +524,11 @@ PINYIN_DICT = {
     "zun": ("z", "uen"),
     "zuo": ("z", "uo"),
 }
-
+English_DICT = {
+    "a":"ei5 ii1",
+    "b":"b i1",
+    "c":"s ei5 ii1",
+}
 
 zh_pattern = re.compile("[\u4e00-\u9fa5]")
 
@@ -619,6 +624,12 @@ class BakerProcessor(BaseProcessor):
             else:
                 # ignore the unknown char and punctuation
                 # result.append(chn_char[i])
+                if cur_char:
+                    print('cur_char:', cur_char)
+                    one_world = English_DICT.get(cur_char.lower())
+                    if one_world:
+                        result.append(one_world)
+                        result.append("#0")
                 i += 1
         if result[-1] == "#0":
             result = result[:-1]
@@ -659,6 +670,11 @@ class BakerProcessor(BaseProcessor):
         my_pinyin = Pinyin(MyConverter())
         pinyin = my_pinyin.pinyin
         return pinyin
+
+    def set_english_dict(self, str):
+        obj = json.loads(str)
+        English_DICT.update(obj)
+        print('English_DICT', English_DICT)
 
     def text_to_sequence(self, text, inference=False):
         if inference:
