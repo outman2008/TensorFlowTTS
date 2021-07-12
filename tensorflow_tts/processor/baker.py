@@ -670,7 +670,7 @@ class BakerProcessor(BaseProcessor):
                     new_pinyin.append(x)
             phonemes = self.get_phoneme_from_char_and_pinyin(text, new_pinyin)
             text = " ".join(phonemes)
-            print(f"phoneme seq: {text}")
+            print(f"phoneme2 seq: {text}")
 
         sequence = []
         for symbol in text.split():
