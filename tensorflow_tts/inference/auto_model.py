@@ -83,7 +83,8 @@ class TFAutoModel(object):
                         cache_dir=CACHE_DIRECTORY,
                     )
                 )
-
+                print('pretrained_path', pretrained_path)
+                print('downloaded_file', downloaded_file)
                 # load config from repo as well
                 if config is None:
                     from tensorflow_tts.inference import AutoConfig
