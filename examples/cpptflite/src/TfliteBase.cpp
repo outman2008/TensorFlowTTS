@@ -12,6 +12,7 @@ TfliteBase::~TfliteBase()
 
 void TfliteBase::interpreterBuild(const char* modelFilename)
 {
+    
     model = tflite::FlatBufferModel::BuildFromFile(modelFilename);
 
     TFLITE_MINIMAL_CHECK(model != nullptr);

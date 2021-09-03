@@ -13,7 +13,7 @@
 #include <fstream>
 #include <tuple>
 #pragma warning(push, 0)
-#include <tensorflow/c/c_api.h>
+#include <tensorflow/lite/c/c_api.h>
 #include "Tensor.h"
 #pragma warning(pop)
 class Tensor;

@@ -15,7 +15,7 @@
 // Prevent warnings from Tensorflow C API headers
 
 #pragma warning(push, 0)
-#include <tensorflow/c/c_api.h>
+#include <tensorflow/lite/c/c_api.h>
 #include "Model.h"
 #pragma warning(pop)
 

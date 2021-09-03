@@ -24,6 +24,6 @@ SET(CMAKE_CXX_FLAGS "-O3 -DNDEBUG -Wl,--no-as-needed -ldl -pthread -fpermissive"
 
 add_executable(demo demo/main.cpp ${DIR_SRCS})
 
-find_library(tflite_LIB tensorflow-lite lib)
+find_library(tflite_LIB tensorflowlite_c lib)
 
 target_link_libraries(demo ${tflite_LIB})

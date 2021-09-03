@@ -1,10 +1,12 @@
 #ifndef TFLITEBASE_H
 #define TFLITEBASE_H
 
-#include "tensorflow/lite/interpreter.h"
-#include "tensorflow/lite/kernels/register.h"
-#include "tensorflow/lite/model.h"
-#include "tensorflow/lite/optional_debug_tools.h"
+#include <tensorflow/lite/interpreter.h>
+#include <tensorflow/lite/kernels/register.h>
+#include <tensorflow/lite/model.h>
+#include <tensorflow/lite/optional_debug_tools.h>
+#include <tensorflow/lite/c/c_api.h>
+#include <TTSBackend.h>
 
 #define TFLITE_MINIMAL_CHECK(x)                              \
     if (!(x)) {                                              \
