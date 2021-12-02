@@ -104,7 +104,6 @@ _finals = [
 
 BAKER_SYMBOLS = _pad + _pause + _initials + [i + j for i in _finals for j in _tones] + _eos
 
-
 PINYIN_DICT = {
     "a": ("^", "a"),
     "ai": ("^", "ai"),
@@ -524,10 +523,121 @@ PINYIN_DICT = {
     "zun": ("z", "uen"),
     "zuo": ("z", "uo"),
 }
+
 English_DICT = {
-    "a":"ei5 ii1",
-    "b":"b i1",
-    "c":"s ei5 ii1",
+    "a": "AH0",
+    "b": "B IY1",
+    "c": "S IY1",
+    "d": "D IY1",
+    "e": "IY1",
+    "f": "EH1 F",
+    "g": "JH IY1",
+    "h": "EY1 CH",
+    "i": "AY1",
+    "j": "JH EY1",
+    "k": "K EY1",
+    "l": "EH1 L",
+    "m": "EH1 M",
+    "n": "EH1 N",
+    "o": "OW1",
+    "p": "P IY1",
+    "q": "K Y UW1",
+    "r": "AA1 R",
+    "s": "EH1 S",
+    "t": "T IY1",
+    "u": "Y UW1",
+    "v": "V IY1",
+    "w": "D AH1 B AH0 L Y UW0",
+    "x": "EH1 K S",
+    "y": "W AY1",
+    "z": "Z IY1",
+}
+
+ext_symbol_id = {
+    "AA": 300,
+    "AA0": 301,
+    "AA1": 302,
+    "AA2": 303,
+    "AE": 304,
+    "AE0": 305,
+    "AE1": 306,
+    "AE2": 307,
+    "AH": 308,
+    "AH0": 309,
+    "AH1": 310,
+    "AH2": 311,
+    "AO": 312,
+    "AO0": 313,
+    "AO1": 314,
+    "AO2": 315,
+    "AW": 316,
+    "AW0": 317,
+    "AW1": 318,
+    "AW2": 319,
+    "AY": 320,
+    "AY0": 321,
+    "AY1": 322,
+    "AY2": 323,
+    "B": 324,
+    "CH": 325,
+    "D": 326,
+    "DH": 327,
+    "EH": 328,
+    "EH0": 329,
+    "EH1": 330,
+    "EH2": 331,
+    "ER": 332,
+    "ER0": 333,
+    "ER1": 334,
+    "ER2": 335,
+    "EY": 336,
+    "EY0": 337,
+    "EY1": 338,
+    "EY2": 339,
+    "F": 340,
+    "G": 341,
+    "HH": 342,
+    "IH": 343,
+    "IH0": 344,
+    "IH1": 345,
+    "IH2": 346,
+    "IY": 347,
+    "IY0": 348,
+    "IY1": 349,
+    "IY2": 350,
+    "JH": 351,
+    "K": 352,
+    "L": 353,
+    "M": 354,
+    "N": 355,
+    "NG": 356,
+    "OW": 357,
+    "OW0": 358,
+    "OW1": 359,
+    "OW2": 360,
+    "OY": 361,
+    "OY0": 362,
+    "OY1": 363,
+    "OY2": 364,
+    "P": 365,
+    "R": 366,
+    "S": 367,
+    "SH": 368,
+    "T": 369,
+    "TH": 370,
+    "UH": 371,
+    "UH0": 372,
+    "UH1": 373,
+    "UH2": 374,
+    "UW": 375,
+    "UW0": 376,
+    "UW1": 377,
+    "UW2": 378,
+    "V": 379,
+    "W": 380,
+    "Y": 381,
+    "Z": 382,
+    "ZH": 383,
 }
 
 zh_pattern = re.compile("[\u4e00-\u9fa5]")
@@ -545,7 +655,6 @@ class MyConverter(NeutralToneWith5Mixin, DefaultConverter):
 
 @dataclass
 class BakerProcessor(BaseProcessor):
-
     pinyin_dict: Dict[str, Tuple[str, str]] = field(default_factory=lambda: PINYIN_DICT)
     cleaner_names: str = None
     target_rate: int = 24000
@@ -569,8 +678,8 @@ class BakerProcessor(BaseProcessor):
         items = []
         if self.data_dir:
             with open(
-                os.path.join(self.data_dir, "ProsodyLabeling/000001-010000.txt"),
-                encoding="utf-8",
+                    os.path.join(self.data_dir, "ProsodyLabeling/000001-010000.txt"),
+                    encoding="utf-8",
             ) as ttf:
                 lines = ttf.readlines()
                 for idx in range(0, len(lines), 2):
@@ -619,7 +728,7 @@ class BakerProcessor(BaseProcessor):
                     i += 1
                     j += 1
             elif cur_char == "#":
-                result.append(chn_char[i : i + 2])
+                result.append(chn_char[i: i + 2])
                 i += 2
             else:
                 # ignore the unknown char and punctuation
@@ -691,8 +800,10 @@ class BakerProcessor(BaseProcessor):
         sequence = []
         for symbol in text.split():
             idx = self.symbol_to_id[symbol]
+            if idx is None:
+                idx = ext_symbol_id[symbol]
             sequence.append(idx)
-        
+
         # add eos tokens
         sequence += [self.eos_id]
         return sequence
