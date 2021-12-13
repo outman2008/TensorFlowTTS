@@ -28,7 +28,7 @@ import tensorflow as tf
 import yaml
 from tqdm import tqdm
 
-from examples.tacotron2.tacotron_dataset import CharactorMelDataset
+from ttsexamples.tacotron2.tacotron_dataset import CharactorMelDataset
 from tensorflow_tts.configs import Tacotron2Config
 from tensorflow_tts.models import TFTacotron2
 
@@ -48,7 +48,7 @@ def main():
     """Running extract tacotron-2 durations."""
     parser = argparse.ArgumentParser(
         description="Extract durations from charactor with trained Tacotron-2 "
-        "(See detail in tensorflow_tts/example/tacotron-2/extract_duration.py)."
+                    "(See detail in tensorflow_tts/example/tacotron-2/extract_duration.py)."
     )
     parser.add_argument(
         "--rootdir",
@@ -79,7 +79,7 @@ def main():
         type=str,
         required=True,
         help="yaml format configuration file. if not explicitly provided, "
-        "it will be searched in the checkpoint directory. (default=None)",
+             "it will be searched in the checkpoint directory. (default=None)",
     )
     parser.add_argument(
         "--verbose",
@@ -180,8 +180,10 @@ def main():
             d = get_duration_from_alignment(alignment)  # [max_char_len]
 
             d = d * config["tacotron2_params"]["reduction_factor"]
+            saved_name = utt_ids[i].decode("utf-8")
+
             assert (
-                np.sum(d) >= real_mel_length
+                    np.sum(d) >= real_mel_length
             ), f"{d}, {np.sum(d)}, {alignment_mel_length}, {real_mel_length}"
             if np.sum(d) > real_mel_length:
                 rest = np.sum(d) - real_mel_length
@@ -194,17 +196,15 @@ def main():
                     d[-1] -= rest // 2
                     d[0] -= rest - rest // 2
 
-                assert d[-1] >= 0 and d[0] >= 0, f"{d}, {np.sum(d)}, {real_mel_length}"
-
-            saved_name = utt_ids[i].decode("utf-8")
+                assert d[-1] >= 0 and d[0] >= 0, f"{d}, {np.sum(d)}, {real_mel_length}, {rest}"
 
             # check a length compatible
             assert (
-                len(d) == real_char_length
+                    len(d) == real_char_length
             ), f"different between len_char and len_durations, {len(d)} and {real_char_length}"
 
             assert (
-                np.sum(d) == real_mel_length
+                    np.sum(d) == real_mel_length
             ), f"different between sum_durations and len_mel, {np.sum(d)} and {real_mel_length}"
 
             # save D to folder.

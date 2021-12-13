@@ -29,6 +29,7 @@ from pypinyin.converter import DefaultConverter
 from pypinyin.core import Pinyin
 from tensorflow_tts.processor import BaseProcessor
 from tensorflow_tts.utils.utils import PROCESSOR_FILE_NAME
+from g2p_en import G2p as grapheme_to_phn
 
 _pad = ["pad"]
 _eos = ["eos"]
@@ -642,6 +643,7 @@ ext_symbol_id = {
 
 zh_pattern = re.compile("[\u4e00-\u9fa5]")
 
+get_g2p = grapheme_to_phn()
 
 def is_zh(word):
     global zh_pattern
@@ -657,12 +659,12 @@ class MyConverter(NeutralToneWith5Mixin, DefaultConverter):
 class BakerProcessor(BaseProcessor):
     pinyin_dict: Dict[str, Tuple[str, str]] = field(default_factory=lambda: PINYIN_DICT)
     cleaner_names: str = None
-    target_rate: int = 24000
+    target_rate: int = 16000
     speaker_name: str = "baker"
 
     def __post_init__(self):
-        super().__post_init__()
         self.pinyin_parser = self.get_pinyin_parser()
+        super().__post_init__()
 
     def setup_eos_token(self):
         return _eos[0]
@@ -677,23 +679,57 @@ class BakerProcessor(BaseProcessor):
     def create_items(self):
         items = []
         if self.data_dir:
-            with open(
-                    os.path.join(self.data_dir, "ProsodyLabeling/000001-010000.txt"),
-                    encoding="utf-8",
-            ) as ttf:
-                lines = ttf.readlines()
-                for idx in range(0, len(lines), 2):
-                    utt_id, chn_char = lines[idx].strip().split()
-                    pinyin = lines[idx + 1].strip().split()
-                    if "IY1" in pinyin or "Ｂ" in chn_char:
-                        print(f"Skip this: {utt_id} {chn_char} {pinyin}")
-                        continue
-                    phonemes = self.get_phoneme_from_char_and_pinyin(chn_char, pinyin)
-                    wav_path = os.path.join(self.data_dir, "Wave", "%s.wav" % utt_id)
+            # with open(
+            #         os.path.join(self.data_dir, "old/000001-010000.txt"),
+            #         encoding="utf-8",
+            # ) as ttf:
+            #     lines = ttf.readlines()
+            #     for idx in range(0, len(lines), 2):
+            #         # print('create idx', idx)
+            #         if idx < 2000:
+            #             continue
+            #         if idx > 2200:
+            #             break
+            #         utt_id, chn_char = lines[idx].strip().split()
+            #         wav_path = os.path.join(self.data_dir, "old/Wave", "%s.wav" % utt_id)
+            #         if os.path.exists(wav_path):
+            #             print('create_items old', utt_id, idx)
+            #             pinyin = lines[idx + 1].strip().split()
+            #             phonemes = self.get_phoneme_from_char_and_pinyin(chn_char, pinyin)
+            #             items.append(
+            #                 [" ".join(phonemes), wav_path, utt_id, self.speaker_name]
+            #             )
+            file_list = os.listdir(self.data_dir)
+            for file in file_list:
+                fileName = os.path.splitext(file)
+                if fileName[1] == '.txt':
+                    file_path = os.path.join(self.data_dir, file)
+                    with open(file_path, encoding="utf-8") as ttf:
+                        line = ttf.readline().strip()
+                    phonemes = self.get_phoneme_from_g2p_en(line)
+                    utt_id = fileName[0]
+                    wav_path = os.path.join(self.data_dir, "%s.wav" % utt_id)
+                    print('create_items', utt_id, phonemes)
                     items.append(
-                        [" ".join(phonemes), wav_path, utt_id, self.speaker_name]
+                        [phonemes, wav_path, utt_id, self.speaker_name]
                     )
             self.items = items
+
+    def get_phoneme_from_g2p_en(self, en_char):
+        parts = en_char.split(' ')
+        result = ["sil"]
+        for word in parts:
+            word = word.strip()
+            if len(word) > 0:
+                phn_arr = get_g2p(word)
+                phn_arr = [x for x in phn_arr if (x != " " and x != "." and x != "," and x != "-" and x != "'" and x != '"')]
+                result += phn_arr
+                result.append("#0")
+        if result[-1] == "#0":
+            result = result[:-1]
+        result.append("sil")
+        text = " ".join(result)
+        return text
 
     def get_phoneme_from_char_and_pinyin(self, chn_char, pinyin):
         # we do not need #4, use sil to replace it
@@ -734,7 +770,7 @@ class BakerProcessor(BaseProcessor):
                 # ignore the unknown char and punctuation
                 # result.append(chn_char[i])
                 if cur_char:
-                    print('cur_char:', cur_char)
+                    # print('cur_char:', cur_char)
                     one_world = English_DICT.get(cur_char.lower())
                     if one_world:
                         result.append(one_world)
@@ -753,6 +789,7 @@ class BakerProcessor(BaseProcessor):
         audio, rate = sf.read(wav_file)
         audio = audio.astype(np.float32)
         if rate != self.target_rate:
+            # print('rate', rate)
             assert rate > self.target_rate
             audio = librosa.resample(audio, rate, self.target_rate)
 
@@ -785,23 +822,27 @@ class BakerProcessor(BaseProcessor):
         English_DICT.update(obj)
         print('English_DICT', English_DICT)
 
+    def text_to_pinyin(self, text):
+        pinyin = self.pinyin_parser(text, style=Style.TONE3, errors="ignore")
+        new_pinyin = []
+        for x in pinyin:
+            x = "".join(x)
+            if "#" not in x:
+                new_pinyin.append(x)
+        phonemes = self.get_phoneme_from_char_and_pinyin(text, new_pinyin)
+        text = " ".join(phonemes)
+        print(f"text_to_pinyin: {text}")
+        return text
+
     def text_to_sequence(self, text, inference=False):
         if inference:
-            pinyin = self.pinyin_parser(text, style=Style.TONE3, errors="ignore")
-            new_pinyin = []
-            for x in pinyin:
-                x = "".join(x)
-                if "#" not in x:
-                    new_pinyin.append(x)
-            phonemes = self.get_phoneme_from_char_and_pinyin(text, new_pinyin)
-            text = " ".join(phonemes)
-            print(f"phoneme2 seq: {text}")
-
+            text = self.text_to_pinyin(text)
         sequence = []
         for symbol in text.split():
-            idx = self.symbol_to_id[symbol]
-            if idx is None:
+            if symbol not in self.symbol_to_id:
                 idx = ext_symbol_id[symbol]
+            else:
+                idx = self.symbol_to_id[symbol]
             sequence.append(idx)
 
         # add eos tokens
