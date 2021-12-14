@@ -11,6 +11,8 @@ import os
 import time
 from g2p_en import G2p as grapheme_to_phn
 import random
+import soundfile as sf
+import winsound
 
 
 # 获取access_token用于鉴权
@@ -197,21 +199,21 @@ def split_line(line, split):
 
 if __name__ == '__main__':
     try:
-        args = get_args()
-        # create_items()
-        # 获取access_token
-        # client_secret = args.client_secret
-        # client_id = args.client_id
-        # # print("running", args)
-        # access_token = get_access_token(client_secret, client_id)
-        # print("access_token", access_token)
-        access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiKiJdLCJzY29wZSI6WyJ0dHMtb25lc2hvdCJdLCJleHAiOjE2Mzk0NjQwMzMsImF1dGhvcml0aWVzIjpbIioiXSwianRpIjoiNjk2MTM0NGItODMyZS00YWJkLTllNDgtMDVjOWJlNDU4YTRhIiwiY2xpZW50X2lkIjoiODRmM2RiYTZhNjliNDIwNzhmOWZlMTk0MmJhOGVjZjMifQ.uwdrR7TjZZjyO3VAb2FN4v_MJz8vCjcriIA3yLSGTHc'
-        # # 读取参数
-        audiotype = args.audiotype
-        domain = args.domain
-        language = args.language
-        voice_name = args.voice_name
-        create_wavs(access_token, args)
+        # args = get_args()
+        # # create_items()
+        # # 获取access_token
+        # # client_secret = args.client_secret
+        # # client_id = args.client_id
+        # # # print("running", args)
+        # # access_token = get_access_token(client_secret, client_id)
+        # # print("access_token", access_token)
+        # access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiKiJdLCJzY29wZSI6WyJ0dHMtb25lc2hvdCJdLCJleHAiOjE2Mzk0NjQwMzMsImF1dGhvcml0aWVzIjpbIioiXSwianRpIjoiNjk2MTM0NGItODMyZS00YWJkLTllNDgtMDVjOWJlNDU4YTRhIiwiY2xpZW50X2lkIjoiODRmM2RiYTZhNjliNDIwNzhmOWZlMTk0MmJhOGVjZjMifQ.uwdrR7TjZZjyO3VAb2FN4v_MJz8vCjcriIA3yLSGTHc'
+        # # # 读取参数
+        # audiotype = args.audiotype
+        # domain = args.domain
+        # language = args.language
+        # voice_name = args.voice_name
+        # create_wavs(access_token, args)
         # text = args.text
         # data = {'access_domain': access_token, 'audiotype': audiotype, 'domain': domain, 'language': language,
         #         'voice_name': voice_name, 'text': text}
@@ -222,5 +224,17 @@ if __name__ == '__main__':
         #     audio.write(content)
         # txt = get_phoneme_from_g2p_en("All prisoners passed their time in absolute idleness, or killed it by gambling and loose conversation.")
         # print(txt)
+        audio_lst = ['200003', '200006', '200008']
+        audios = []
+        for word in audio_lst:
+            wav_path = os.path.join(data_dir, f"{word}.wav")
+            print(wav_path)
+            if os.path.exists(wav_path):
+                # with open(wav_path, 'rb') as audio:
+                audio, rate = sf.read(wav_path)
+                print(audio)
+                # winsound.PlaySound(audio.read(), winsound.SND_MEMORY)
+                audios.append(audio)
+        # winsound.PlaySound(audios, winsound.SND_MEMORY)
     except Exception as e:
         print(e)

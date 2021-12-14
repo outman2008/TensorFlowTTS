@@ -525,125 +525,98 @@ PINYIN_DICT = {
     "zuo": ("z", "uo"),
 }
 
+# English_DICT = {
+#     "a": "AH0",
+#     "b": "B IY1",
+#     "c": "S IY1",
+#     "d": "D IY1",
+#     "e": "IY1",
+#     "f": "EH1 F",
+#     "g": "JH IY1",
+#     "h": "EY1 CH",
+#     "i": "AY1",
+#     "j": "JH EY1",
+#     "k": "K EY1",
+#     "l": "EH1 L",
+#     "m": "EH1 M",
+#     "n": "EH1 N",
+#     "o": "OW1",
+#     "p": "P IY1",
+#     "q": "K Y UW1",
+#     "r": "AA1 R",
+#     "s": "EH1 S",
+#     "t": "T IY1",
+#     "u": "Y UW1",
+#     "v": "V IY1",
+#     "w": "D AH1 B AH0 L Y UW0",
+#     "x": "EH1 K S",
+#     "y": "W AY1",
+#     "z": "Z IY1",
+# }
 English_DICT = {
-    "a": "AH0",
-    "b": "B IY1",
-    "c": "S IY1",
-    "d": "D IY1",
-    "e": "IY1",
-    "f": "EH1 F",
-    "g": "JH IY1",
-    "h": "EY1 CH",
-    "i": "AY1",
-    "j": "JH EY1",
-    "k": "K EY1",
-    "l": "EH1 L",
-    "m": "EH1 M",
-    "n": "EH1 N",
-    "o": "OW1",
-    "p": "P IY1",
-    "q": "K Y UW1",
-    "r": "AA1 R",
-    "s": "EH1 S",
-    "t": "T IY1",
-    "u": "Y UW1",
-    "v": "V IY1",
-    "w": "D AH1 B AH0 L Y UW0",
-    "x": "EH1 K S",
-    "y": "W AY1",
-    "z": "Z IY1",
+    "a": "A",
+    "b": "B",
+    "c": "C",
+    "d": "D",
+    "e": "E",
+    "f": "F",
+    "g": "G",
+    "h": "H",
+    "i": "I",
+    "j": "J",
+    "k": "K",
+    "l": "L",
+    "m": "M",
+    "n": "N",
+    "o": "O",
+    "p": "P",
+    "q": "Q",
+    "r": "R",
+    "s": "S",
+    "t": "T",
+    "u": "U",
+    "v": "V",
+    "w": "W",
+    "x": "X",
+    "y": "Y",
+    "z": "Z",
 }
 
 ext_symbol_id = {
-    "AA": 300,
-    "AA0": 301,
-    "AA1": 302,
-    "AA2": 303,
-    "AE": 304,
-    "AE0": 305,
-    "AE1": 306,
-    "AE2": 307,
-    "AH": 308,
-    "AH0": 309,
-    "AH1": 310,
-    "AH2": 311,
-    "AO": 312,
-    "AO0": 313,
-    "AO1": 314,
-    "AO2": 315,
-    "AW": 316,
-    "AW0": 317,
-    "AW1": 318,
-    "AW2": 319,
-    "AY": 320,
-    "AY0": 321,
-    "AY1": 322,
-    "AY2": 323,
-    "B": 324,
-    "CH": 325,
-    "D": 326,
-    "DH": 327,
-    "EH": 328,
-    "EH0": 329,
-    "EH1": 330,
-    "EH2": 331,
-    "ER": 332,
-    "ER0": 333,
-    "ER1": 334,
-    "ER2": 335,
-    "EY": 336,
-    "EY0": 337,
-    "EY1": 338,
-    "EY2": 339,
-    "F": 340,
-    "G": 341,
-    "HH": 342,
-    "IH": 343,
-    "IH0": 344,
-    "IH1": 345,
-    "IH2": 346,
-    "IY": 347,
-    "IY0": 348,
-    "IY1": 349,
-    "IY2": 350,
-    "JH": 351,
-    "K": 352,
-    "L": 353,
-    "M": 354,
-    "N": 355,
-    "NG": 356,
-    "OW": 357,
-    "OW0": 358,
-    "OW1": 359,
-    "OW2": 360,
-    "OY": 361,
-    "OY0": 362,
-    "OY1": 363,
-    "OY2": 364,
-    "P": 365,
-    "R": 366,
-    "S": 367,
-    "SH": 368,
-    "T": 369,
-    "TH": 370,
-    "UH": 371,
-    "UH0": 372,
-    "UH1": 373,
-    "UH2": 374,
-    "UW": 375,
-    "UW0": 376,
-    "UW1": 377,
-    "UW2": 378,
-    "V": 379,
-    "W": 380,
-    "Y": 381,
-    "Z": 382,
-    "ZH": 383,
+    "A": 400,
+    "B": 401,
+    "C": 402,
+    "D": 403,
+    "E": 404,
+    "F": 405,
+    "G": 406,
+    "H": 407,
+    "I": 408,
+    "J": 409,
+    "K": 410,
+    "L": 411,
+    "M": 412,
+    "N": 413,
+    "O": 414,
+    "P": 415,
+    "Q": 416,
+    "R": 417,
+    "S": 418,
+    "T": 419,
+    "U": 420,
+    "V": 421,
+    "W": 422,
+    "X": 423,
+    "Y": 424,
+    "Z": 425,
 }
 
 zh_pattern = re.compile("[\u4e00-\u9fa5]")
 
 get_g2p = grapheme_to_phn()
+
+ch_files = ['002365', '002762', '100001']
+
 
 def is_zh(word):
     global zh_pattern
@@ -679,40 +652,43 @@ class BakerProcessor(BaseProcessor):
     def create_items(self):
         items = []
         if self.data_dir:
-            # with open(
-            #         os.path.join(self.data_dir, "old/000001-010000.txt"),
-            #         encoding="utf-8",
-            # ) as ttf:
-            #     lines = ttf.readlines()
-            #     for idx in range(0, len(lines), 2):
-            #         # print('create idx', idx)
-            #         if idx < 2000:
-            #             continue
-            #         if idx > 2200:
-            #             break
-            #         utt_id, chn_char = lines[idx].strip().split()
-            #         wav_path = os.path.join(self.data_dir, "old/Wave", "%s.wav" % utt_id)
-            #         if os.path.exists(wav_path):
-            #             print('create_items old', utt_id, idx)
-            #             pinyin = lines[idx + 1].strip().split()
-            #             phonemes = self.get_phoneme_from_char_and_pinyin(chn_char, pinyin)
-            #             items.append(
-            #                 [" ".join(phonemes), wav_path, utt_id, self.speaker_name]
-            #             )
-            file_list = os.listdir(self.data_dir)
-            for file in file_list:
-                fileName = os.path.splitext(file)
-                if fileName[1] == '.txt':
-                    file_path = os.path.join(self.data_dir, file)
-                    with open(file_path, encoding="utf-8") as ttf:
-                        line = ttf.readline().strip()
-                    phonemes = self.get_phoneme_from_g2p_en(line)
-                    utt_id = fileName[0]
-                    wav_path = os.path.join(self.data_dir, "%s.wav" % utt_id)
-                    print('create_items', utt_id, phonemes)
-                    items.append(
-                        [phonemes, wav_path, utt_id, self.speaker_name]
-                    )
+            with open(
+                    os.path.join(self.data_dir, "old/000001-010000.txt"),
+                    encoding="utf-8",
+            ) as ttf:
+                lines = ttf.readlines()
+                for idx in range(0, len(lines), 2):
+                    # print('create idx', idx)
+                    # if idx < 2000:
+                    #     continue
+                    # if idx > 2200:
+                    #     break
+                    utt_id, chn_char = lines[idx].strip().split()
+                    wav_path = os.path.join(self.data_dir, "old/Wave", "%s.wav" % utt_id)
+                    if os.path.exists(wav_path):
+                        print('create_items old', utt_id, idx)
+                        pinyin = lines[idx + 1].strip().split()
+                        phonemes = self.get_phoneme_from_char_and_pinyin(chn_char, pinyin)
+                        items.append(
+                            [" ".join(phonemes), wav_path, utt_id, self.speaker_name]
+                        )
+            # file_list = os.listdir(self.data_dir)
+            # for file in file_list:
+            #     fileName = os.path.splitext(file)
+            #     if fileName[1] == '.txt':
+            #         file_path = os.path.join(self.data_dir, file)
+            #         with open(file_path, encoding="utf-8") as ttf:
+            #             line = ttf.readline().strip()
+            #         utt_id = fileName[0]
+            #         if utt_id in ch_files:
+            #             phonemes = self.text_to_pinyin(line)
+            #         else:
+            #             phonemes = self.get_phoneme_from_g2p_en(line)
+            #         wav_path = os.path.join(self.data_dir, "%s.wav" % utt_id)
+            #         print('create_items', utt_id, phonemes)
+            #         items.append(
+            #             [phonemes, wav_path, utt_id, self.speaker_name]
+            #         )
             self.items = items
 
     def get_phoneme_from_g2p_en(self, en_char):
@@ -721,10 +697,11 @@ class BakerProcessor(BaseProcessor):
         for word in parts:
             word = word.strip()
             if len(word) > 0:
-                phn_arr = get_g2p(word)
-                phn_arr = [x for x in phn_arr if (x != " " and x != "." and x != "," and x != "-" and x != "'" and x != '"')]
-                result += phn_arr
-                result.append("#0")
+                for cur_char in word:
+                    one_world = English_DICT.get(cur_char.lower())
+                    if one_world:
+                        result.append(one_world)
+                        result.append("#0")
         if result[-1] == "#0":
             result = result[:-1]
         result.append("sil")
